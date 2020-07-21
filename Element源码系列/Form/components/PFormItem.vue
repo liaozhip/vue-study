@@ -87,7 +87,7 @@ export default {
     getFilterRules(trigger) { // 根据 trigger 过虑验证方式
       return this.rules.filter(rule => {
 
-        if (!rule.trigger || rule.trigger === '') {
+        if (!rule.trigger || trigger === '') {
           return true
         }
         if (Array.isArray(rule.trigger)) {
