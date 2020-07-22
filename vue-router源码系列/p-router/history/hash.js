@@ -11,11 +11,18 @@ export default class HashHistory extends History {
     }
 
     window.addEventListener('hashchange', handleRoutingEvent)
+
+    this.listeners.push(() => {
+      window.removeEventListener('hashchange', handleRoutingEvent)
+    })
   }
   
   getHash() {
     return window.location.hash.slice(1) || '/'
   }
 
-}
+  push(location) {
+    this.transitionTo(location)
+  }
 
+}

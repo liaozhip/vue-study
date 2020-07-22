@@ -1,4 +1,5 @@
 import View from './components/view'
+import Link from './components/link'
 
 export let _Vue
 
@@ -38,4 +39,5 @@ export function install(Vue) {
   })
 
   Vue.component('router-view', View)
+  Vue.component('router-link', Link)
 }

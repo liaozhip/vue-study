@@ -30,6 +30,7 @@ export default class VueRouter {
 
   init(app) {
     this.apps.push(app)
+
     app.$once('hook:destroyed', () => {
       const index = this.apps.indexOf(app)
       if (index > -1) {
@@ -39,13 +40,17 @@ export default class VueRouter {
       if (this.app === app) {
         this.app = this.apps[0] || null
       }
+
+      if (!this.app) {
+        this.history.teardownListeners()
+      }
     })
+
     if (this.app) {
       return
     }
 
     this.app = app
-
     const history = this.history
 
     if (!history) {
@@ -61,6 +66,10 @@ export default class VueRouter {
         app._route = route
       })
     })
+  }
+
+  push(location) {
+    this.history.push(location)
   }
 }
 

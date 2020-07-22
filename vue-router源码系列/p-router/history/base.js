@@ -6,6 +6,7 @@ export class History {
     this.base = base
     this.current = createRoute(null, { path: '/' })
     this.cb = null
+    this.listeners = []
   }
 
   listen(cb) {
@@ -19,6 +20,15 @@ export class History {
 
   transitionTo(location) {
     const route = this.router.match(location, this.current)
+
     this.updateRoute(route)
+    window.location.hash = location
+  }
+
+  teardownListeners() {
+    this.listeners.forEach(cleanupListener => {
+      cleanupListener()
+    })
+    this.listeners = []
   }
 }
