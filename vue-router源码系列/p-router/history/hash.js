@@ -1,20 +1,20 @@
-export default class HashHistory {
-  constructor(router) {
-    this.current = this.getHash() || '/'
-    this.change()
-    this.router = router
+import { History } from './base'
+
+export default class HashHistory extends History {
+  constructor(router, base) {
+    super(router, base)
   }
 
+  setupListeners() {
+    const handleRoutingEvent = () => {
+      this.transitionTo(this.getHash())
+    }
+
+    window.addEventListener('hashchange', handleRoutingEvent)
+  }
+  
   getHash() {
-    return window.location.hash.slice(1)
-  }
-
-  change() {
-    window.addEventListener('hashchange', this.hashChange.bind(this))
-  }
-
-  hashChange() {
-    this.router.cb(this.getHash())
+    return window.location.hash.slice(1) || '/'
   }
 
 }

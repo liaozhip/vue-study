@@ -1,6 +1,6 @@
 import View from './components/view'
 
-let _Vue
+export let _Vue
 
 export function install(Vue) {
   if (install.installed && _Vue === Vue) {
@@ -10,15 +10,15 @@ export function install(Vue) {
 
   _Vue = Vue
 
+  const isDef = v => v !== undefined
+
   Vue.mixin({
     beforeCreate() {
-      if (this.$options.router !== undefined) {
+      if (isDef(this.$options.router)) {
         this._routerRoot = this
         this._router = this.$options.router
+        this._router.init(this)
         Vue.util.defineReactive(this, '_route', this._router.history.current)
-        this._router.listen((route) => {
-          this._route = route
-        })
       } else {
         this._routerRoot = (this.$parent && this.$parent._routerRoot) || this
       }
